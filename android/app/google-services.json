@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744680298158",
+    "project_id": "baliza-4909e",
+    "storage_bucket": "baliza-4909e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744680298158:android:2656e71d847cf21463bf3f",
+        "android_client_info": {
+          "package_name": "com.example.baliza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744680298158-tu27vknautvl3p28950lrp3p571787ac.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baliza",
+            "certificate_hash": "325cb325518ec495bb0820cee4a26dd2e7227922"
+          }
+        },
+        {
+          "client_id": "744680298158-anh64ea3j6t3nt2ubur833fc40g9ftm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0xS-Gf_rxh1gPXblx8mmirOxjQJPnpBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744680298158-anh64ea3j6t3nt2ubur833fc40g9ftm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
