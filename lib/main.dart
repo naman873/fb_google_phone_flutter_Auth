@@ -61,13 +61,15 @@ class _MyAppState extends State<MyApp> {
   Future<void> _handleSignIn() async {
     try {
       print('yoo');
-      await _googleSignIn.signIn();
-      setState(() {
-        _isLoggedIn = true;
-        _googleSignIn.onCurrentUserChanged
-            .listen((GoogleSignInAccount? account) {
-          setState(() {
-            _currentUser = account;
+      await _googleSignIn.signIn().then((context) {
+        setState(() {
+          _googleSignIn.onCurrentUserChanged
+              .listen((GoogleSignInAccount? account) {
+            setState(() {
+              _currentUser = account;
+              print('zxfaddsad $_currentUser');
+              _isLoggedIn = true;
+            });
           });
         });
       });
@@ -203,6 +205,7 @@ class _MyAppState extends State<MyApp> {
                                     fontWeight: FontWeight.w600),
                               ),
                               onPressed: () {
+                                print(_currentUser);
                                 _handleSignOut();
                                 setState(() {
                                   _isLoggedIn = false;
@@ -278,17 +281,35 @@ class _MyAppState extends State<MyApp> {
                           );
                         } else {
                           await _handleSignIn();
+                          if (_isLoggedIn == true) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home(
+                                    user: _currentUser,
+                                  );
+                                },
+                              ),
+                            );
+                          }
+
                           //GoogleSignInAccount? user = _currentUser;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Home(
-                                  user: _currentUser,
-                                );
-                              },
-                            ),
-                          );
+                          //Future.delayed(Duration(seconds: 1));
+                          //print(_currentUser);
+                          print(_isLoggedIn);
+                          // if (_isLoggedIn == true) {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) {
+                          //         return Home(
+                          //           user: _currentUser,
+                          //         );
+                          //       },
+                          //     ),
+                          //   );
+                          // }
                         }
                       },
                       child: Text('Sign up Google'),

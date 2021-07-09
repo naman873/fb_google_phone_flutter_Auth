@@ -13,6 +13,7 @@ class _SignUpNumberState extends State<SignUpNumber> {
   TextEditingController NumberController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   String numError = '';
+  GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   Future<bool> loginUser(String number) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
@@ -43,12 +44,16 @@ class _SignUpNumberState extends State<SignUpNumber> {
               builder: (context) {
                 return AlertDialog(
                   title: Text("Given the code"),
-                  content: Column(
-                    children: [
-                      TextField(
-                        controller: codeController,
-                      )
-                    ],
+                  content: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: codeController,
+                        )
+                      ],
+                    ),
                   ),
                   actions: [
                     FlatButton(
@@ -74,7 +79,7 @@ class _SignUpNumberState extends State<SignUpNumber> {
                       },
                       child: Text('Confirm'),
                       color: Colors.blueAccent,
-                      textColor: Colors.white24,
+                      textColor: Colors.black,
                     )
                   ],
                 );
@@ -87,6 +92,7 @@ class _SignUpNumberState extends State<SignUpNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         leading: CircleAvatar(
           child: IconButton(
@@ -150,69 +156,123 @@ class _SignUpNumberState extends State<SignUpNumber> {
                   Radius.circular(20),
                 ),
               ),
-              height: 60,
+              height: MediaQuery.of(context).size.width * 0.18,
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: TextField(
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width / 20),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixText: '+91   ',
-                        prefixStyle: TextStyle(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: TextField(
+                        style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width / 20),
-                        hintText: 'Contact Number',
-                        errorText: numError,
-                        contentPadding: EdgeInsets.all(12.8),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixText: '+91   ',
+                          prefixStyle: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width / 20),
+                          hintText: 'Contact Number',
+                          errorText: numError,
+                          contentPadding: EdgeInsets.all(12.8),
+                        ),
+                        controller: NumberController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        onChanged: (value) {
+                          if (RegExp(r'^\d{10}$').hasMatch(value))
+                            setState(() {
+                              numError = '';
+                            });
+                          else
+                            setState(() {
+                              numError = 'Enter a valid phone number';
+                            });
+                        },
                       ),
-                      controller: NumberController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                      onChanged: (value) {
-                        if (RegExp(r'^\d{10}$').hasMatch(value))
-                          setState(() {
-                            numError = '';
-                          });
-                        else
-                          setState(() {
-                            numError = 'Enter a valid phone number';
-                          });
-                      },
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 80,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xff5D66D3),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(30),
-                ),
-              ),
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width * 0.4,
-              child: ListTile(
-                title: Text(
-                  'Send otp',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-                trailing: CircleAvatar(
-                  maxRadius: 16,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_forward_ios_rounded),
-                    onPressed: () {
-                      print('+91' + NumberController.value.text.trim());
-                      loginUser('+91' + NumberController.value.text.trim());
-                    },
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: Color(0xff5D66D3),
+            //     borderRadius: BorderRadius.all(
+            //       Radius.circular(30),
+            //     ),
+            //   ),
+            //   height: MediaQuery.of(context).size.height * 0.06,
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   child: ListTile(
+            //     title: Text(
+            //       'Send otp',
+            //       style: TextStyle(color: Colors.white, fontSize: 15),
+            //     ),
+            //     trailing: CircleAvatar(
+            //       maxRadius: 16,
+            //       child: IconButton(
+            //         icon: Icon(Icons.arrow_forward_ios_rounded),
+            //         onPressed: () {
+            //           print('+91' + NumberController.value.text.trim());
+            //           loginUser('+91' + NumberController.value.text.trim());
+            //         },
+            //       ),
+            //       backgroundColor: Color(0xff5D66D3),
+            //     ),
+            //   ),
+            // ),
+            InkWell(
+              onTap: () {
+                if (NumberController.value.text.length != 10) {
+                  _key.currentState!.showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Type Valid Number',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      duration: Duration(seconds: 2),
+                      backgroundColor: Colors.blue,
+                    ),
+                  );
+                  // Scaffold.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text('Type Valid Number'),
+                  //   ),
+                  // );
+                } else {
+                  print('+91' + NumberController.value.text.trim());
+                  loginUser('+91' + NumberController.value.text.trim());
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff5D66D3),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30),
                   ),
-                  backgroundColor: Color(0xff5D66D3),
+                ),
+                height: MediaQuery.of(context).size.height * 0.068,
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Center(
+                  child: ListTile(
+                    title: Text(
+                      'Send otp',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                    trailing: CircleAvatar(
+                      maxRadius: 16,
+                      child: Icon(Icons.arrow_forward_ios_rounded),
+                      backgroundColor: Color(0xff5D66D3),
+                    ),
+                  ),
                 ),
               ),
             )

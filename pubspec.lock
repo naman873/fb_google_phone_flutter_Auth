@@ -212,6 +212,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webview_plugin:
+    dependency: transitive
+    description:
+      name: flutter_webview_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.11"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -254,6 +261,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  github_sign_in:
+    dependency: "direct main"
+    description:
+      name: github_sign_in
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   google_sign_in:
     dependency: "direct main"
     description:
