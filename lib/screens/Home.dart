@@ -9,6 +9,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/widgets.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ad_view.dart';
 
@@ -131,8 +132,22 @@ class _HomeState extends State<Home> {
               : CircularProgressIndicator(
                   strokeWidth: 3,
                 ),
-          SizedBox(
-            height: 10,
+          Row(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  Future<SharedPreferences> _pref =
+                      SharedPreferences.getInstance();
+                  final pref = await _pref;
+                  pref.remove('PhoneNumber');
+                  Navigator.pop(context);
+                },
+                child: Text('Logout'),
+              )
+            ],
           ),
           widget.user != null
               ? ListTile(

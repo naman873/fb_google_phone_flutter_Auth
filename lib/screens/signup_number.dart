@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
 
@@ -24,6 +25,10 @@ class _SignUpNumberState extends State<SignUpNumber> {
           UserCredential result = await _auth.signInWithCredential(credential);
           User? user = result.user;
           if (user != null) {
+            // Future<SharedPreferences>  _pref = SharedPreferences.getInstance();
+            // final pref = await _pref;
+            // pref.setString(
+            //     'PhoneNumber', NumberController.value.text);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -67,6 +72,13 @@ class _SignUpNumberState extends State<SignUpNumber> {
                         User? user = result.user;
                         print(user);
                         if (user != null) {
+                          // Shared Preferences
+                          Future<SharedPreferences> _prefs =
+                              SharedPreferences.getInstance();
+                          final SharedPreferences prefs = await _prefs;
+                          prefs.setString(
+                              'PhoneNumber', NumberController.value.text);
+                          print("YPPPPPPPPPPPPPPPP");
                           Navigator.push(
                             context,
                             MaterialPageRoute(
